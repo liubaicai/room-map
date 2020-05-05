@@ -4,7 +4,3 @@ gem 'rubocop', require: false
 
 gem 'kimurai' #, :git => 'https://github.com/vifreefly/kimuraframework' , :branch => 'master' 
 gem 'mechanize'
-
-gem "sqlite3"
-gem "pg"
-gem 'activerecord', :require => "active_record"
