@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres:12.1-alpine
+    restart: always
+    volumes:
+        - ./db:/var/lib/postgresql/data
+    environment:
+        - POSTGRES_DB=room-map
+    ports:
+        - "5432:5432"

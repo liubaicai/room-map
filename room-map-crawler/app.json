@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "room-map-crawler",
+      "interpreter": "ruby",
+      "script": "./bin/run",
+      "autorestart": true,
+      "restart_delay": 3000,
+      "output": "./tmp/room-map.out.log",
+      "error": "./tmp/room-map.err.log",
+      "env": {}
+    }
+  ]
+}
