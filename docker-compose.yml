@@ -1,13 +1,32 @@
-version: '3'
+version: "3"
 
 services:
-
   db:
+    container_name: room-map-db
     image: postgres:12.1-alpine
     restart: always
     volumes:
-        - ./db:/var/lib/postgresql/data
+      - ./db:/var/lib/postgresql/data
+      - ./db-backup:/db-backup
     environment:
-        - POSTGRES_DB=room-map
+      - POSTGRES_DB=room-map
     ports:
-        - "5432:5432"
+      - "5432:5432"
+  receiver:
+    container_name: room-map-receiver
+    build: ./room-map-receiver
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "9014:3000"
+  web:
+    container_name: room-map-web
+    build: ./room-map-web
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "9015:3000"
+    environment:
+      - DBHOST=db

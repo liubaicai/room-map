@@ -1,9 +1,14 @@
 import Sequelize from 'sequelize'
 
-const sequelize = new Sequelize('room-map', 'postgres', 'postgres', {
-  host: '192.168.2.230',
-  dialect: 'postgres'
-})
+const sequelize = new Sequelize(
+  'room-map',
+  process.env.DBUSER || 'postgres',
+  process.env.DBPASSWORD || 'postgres',
+  {
+    host: process.env.DBHOST || '192.168.2.230',
+    dialect: 'postgres'
+  }
+)
 
 const Model = Sequelize.Model
 class Room extends Model {}

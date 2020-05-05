@@ -1,10 +1,8 @@
 # frozen_string_literal: true
+require 'net/http'
 
 module Crawler
   class Base < Kimurai::Base
-    def self.mutex
-      @mutex ||= Mutex.new
-    end
 
     def self.run(multi = false)
       if multi
@@ -23,18 +21,17 @@ module Crawler
       # puts JSON.pretty_generate(item)
       # exit!
 
-      self.class.mutex.synchronize do
-        begin
-          old = Room.find_by(code: item[:code])
-          if Room.find_by(code: item[:code])
-            old.update!(item)
-          else
-            Room.create!(item)
-          end
-          logger.info "> #{item[:title]}"
-        rescue StandardError => e
-          logger.error e
+      begin
+        uri = URI('http://192.168.2.230:9014/room')
+        req = Net::HTTP::Post.new(uri)
+        req.set_form_data(item)
+  
+        Net::HTTP.start(uri.hostname, uri.port) do |http|
+          http.request(req)
         end
+        logger.info "> #{item[:title]}"
+      rescue StandardError => e
+        logger.error e
       end
     end
   end
