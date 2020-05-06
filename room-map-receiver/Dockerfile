@@ -20,4 +20,4 @@ WORKDIR /code
 
 RUN bundle install
 
-CMD ["puma", "config.ru", "-C", "puma.rb"]
+CMD ["bundle", "exec", "puma", "config.ru", "-C", "puma.rb"]
