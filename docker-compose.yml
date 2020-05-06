@@ -18,6 +18,8 @@ services:
     restart: always
     depends_on:
       - db
+    environment:
+      - RACK_ENV=production
     ports:
       - "9014:3000"
   web:

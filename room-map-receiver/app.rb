@@ -2,7 +2,6 @@
 
 require 'sinatra'
 require 'puma'
-require 'puma-metrics'
 require 'pg'
 require 'active_record'
 
