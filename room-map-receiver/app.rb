@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('./Gemfile', __dir__)
-require 'bundler/setup'
-Bundler.require(:default)
+require 'sinatra'
+require 'puma'
+require 'puma-metrics'
+require 'pg'
+require 'active_record'
 
 Dir[File.dirname(__FILE__) + '/db/*.rb'].sort.each { |file| require file }
 
