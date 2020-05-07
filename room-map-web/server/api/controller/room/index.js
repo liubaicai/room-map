@@ -19,11 +19,53 @@ const search = async (req, res, next) => {
   res.json(rooms)
 }
 
+const count = async (req, res, next) => {
+  const total = await Room.count()
+  const today = await Room.count({
+    where: {
+      publish_time: {
+        [Op.gte]: new Date().setHours(0, 0, 0, 0)
+      }
+    }
+  })
+  const totalGroup = await Room.findAll({
+    attributes: [
+      'position_district',
+      [Room.sequelize.fn('count', Room.sequelize.col('id')), 'count']
+    ],
+    group: [['position_district']]
+  })
+  const todayGroup = await Room.findAll({
+    where: {
+      publish_time: {
+        [Op.gte]: new Date().setHours(0, 0, 0, 0)
+      }
+    },
+    attributes: [
+      'position_district',
+      [Room.sequelize.fn('count', Room.sequelize.col('id')), 'count']
+    ],
+    group: [['position_district']]
+  })
+  res.json({
+    total: {
+      count: total,
+      group: totalGroup
+    },
+    today: {
+      count: today,
+      group: todayGroup
+    }
+  })
+}
+
 const pricePerSqmPositionDistrict = async (req, res, next) => {
   const rooms = await Room.findAll({
     where: {
       position_district: {
-        [Op.in]: ['东城', '西城', '朝阳', '海淀', '石景山', '丰台'],
+        [Op.in]: ['东城', '西城', '朝阳', '海淀', '石景山', '丰台']
+      },
+      publish_time: {
         [Op.gt]: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
       }
     },
@@ -63,4 +105,4 @@ const pricePerSqmAvg = async (req, res, next) => {
   res.json(rooms)
 }
 
-export { search, pricePerSqmPositionDistrict, pricePerSqmAvg }
+export { search, count, pricePerSqmPositionDistrict, pricePerSqmAvg }

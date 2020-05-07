@@ -1,9 +1,5 @@
 <template>
   <div>
-    <a-card title="room-map-web">
-      <p>My mathematical Nuxt.js project</p>
-      <a-spin />
-    </a-card>
     <div id="gchart"></div>
   </div>
 </template>
@@ -14,17 +10,6 @@ import { Chart } from '@antv/g2'
 
 export default {
   components: {},
-  // async asyncData({ req }) {
-  //   const data = {}
-  //   const p1 = axios
-  //     .get(`${req.protocol}://${req.get('host')}/api/pricePerSqmAvg`)
-  //     .then((result) => {
-  //       data.pricePerSqmAvg = result.data
-  //     })
-  //   await Promise.all([p1])
-  //   console.log(data)
-  //   return data
-  // },
   mounted() {
     this.loadChart()
   },
