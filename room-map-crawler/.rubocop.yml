@@ -7,7 +7,7 @@ Style/Documentation:
   Enabled: false
 Style/FloatDivision:
   Enabled: false
-Style/EndOfLine:
+Layout/EndOfLine:
   EnforcedStyle: lf
 
 Metrics/AbcSize:
@@ -16,6 +16,8 @@ Metrics/AbcSize:
 Lint/UnusedMethodArgument:
   Enabled: false
 
+Metrics/ClassLength:
+  Max: 360
 Metrics/MethodLength:
   Max: 180
 Metrics/BlockLength:

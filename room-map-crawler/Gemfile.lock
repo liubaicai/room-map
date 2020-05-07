@@ -72,6 +72,8 @@ GEM
       connection_pool (~> 2.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
+    nokogiri (1.10.9-x64-mingw32)
+      mini_portile2 (~> 2.4.0)
     ntlm-http (0.1.1)
     parallel (1.19.1)
     parser (2.7.0.2)
@@ -110,6 +112,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
+    unf_ext (0.0.7.7-x64-mingw32)
     unicode-display_width (1.6.0)
     webrobots (0.1.2)
     websocket-driver (0.7.1)
@@ -123,6 +126,7 @@ GEM
 
 PLATFORMS
   ruby
+  x64-mingw32
 
 DEPENDENCIES
   kimurai

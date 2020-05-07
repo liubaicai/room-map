@@ -42,17 +42,17 @@ module Crawler
     ]
     @config = {
       user_agent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36',
-      before_request: { delay: 0.8..1.2 },
+      before_request: { delay: 1..1 },
       retry_request_errors: [
         { error: Net::HTTP::Persistent::Error },
         { error: Net::OpenTimeout },
         { error: Errno::EHOSTUNREACH },
         { error: SocketError },
-        { error: Exception }
+        { error: StandardError }
       ],
       skip_request_errors: [
         { error: RuntimeError, message: '520', skip_on_failure: true },
-        { error: RuntimeError, message: "404 => Net::HTTPNotFound", skip_on_failure: true }
+        { error: RuntimeError, message: '404 => Net::HTTPNotFound', skip_on_failure: true }
       ]
     }
 
