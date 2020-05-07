@@ -21,7 +21,7 @@ module Crawler
       # puts JSON.pretty_generate(item)
       # exit!
 
-      uri = URI('http://192.168.2.230:9014/room')
+      uri = URI('http://192.168.137.2:9014/room')
       req = Net::HTTP::Post.new(uri)
       req.set_form_data(item)
 

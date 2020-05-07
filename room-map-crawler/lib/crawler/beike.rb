@@ -52,6 +52,7 @@ module Crawler
       ],
       skip_request_errors: [
         { error: RuntimeError, message: '520', skip_on_failure: true },
+        { error: Net::HTTPNotFound, message: '404 => Net::HTTPNotFound' },
         { error: RuntimeError, message: '404 => Net::HTTPNotFound', skip_on_failure: true }
       ]
     }
@@ -68,6 +69,8 @@ module Crawler
         end
         break unless is_continue
       end
+
+      GC.start
       return unless is_continue
 
       current = response.xpath("//div[@class='content__pg']/@data-curpage").text.to_i
