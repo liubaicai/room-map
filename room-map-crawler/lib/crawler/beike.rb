@@ -41,7 +41,7 @@ module Crawler
       'https://bj.zu.ke.com/zufang/yanqing/rco11rt200600000002/'
     ]
     @config = {
-      user_agent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36',
+      user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
       before_request: { delay: 1..1 },
       retry_request_errors: [
         { error: Net::HTTP::Persistent::Error },

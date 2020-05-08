@@ -6,6 +6,8 @@ Bundler.require(:default)
 require 'date'
 require 'net/http'
 
+Dotenv.load
+
 require File.expand_path('crawler/base.rb', __dir__)
 Dir[File.dirname(__FILE__) + '/*/*.rb'].sort.each { |file| require file }
 
