@@ -64,7 +64,7 @@ module Crawler
         origin = div.xpath(".//p[@class='content__list--item--brand oneline']/span[@class='brand']").text.squish
         if %w[链家 自如].include? origin
           # code = "BK-#{div['data-house_code']}"
-          link = div.xpath(".//p[@class='content__list--item--title twoline']/a/@href").text
+          link = div.xpath(".//p[@class='content__list--item--title']/a[@class='twoline']/@href").text
           is_continue = request_to :parse_detail_page, url: absolute_url(link, base: url), data: { origin: origin }
         end
         break unless is_continue
