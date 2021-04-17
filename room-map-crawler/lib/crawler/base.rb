@@ -23,7 +23,7 @@ module Crawler
 
       host = ENV['RECEIVER_HOST'] || 'localhost'
       port = ENV['RECEIVER_PORT'] || 8080
-      uri = URI("http://#{host}:#{port}/room")
+      uri = URI("http://#{host}:#{port}/rooms")
       req = Net::HTTP::Post.new(uri)
       req.set_form_data(item)
 

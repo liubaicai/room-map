@@ -1,23 +1,16 @@
-FROM ruby:2.6-alpine
+FROM node:14-stretch-slim as builder
 
-RUN echo "https://mirror.tuna.tsinghua.edu.cn/alpine/v3.11/main/" > /etc/apk/repositories
+WORKDIR /app
+COPY . /app
+RUN npm ci && npm run build
 
-ENV BUILD_PACKAGES="curl-dev ruby-dev build-base bash" \
-    DEV_PACKAGES="zlib-dev libxml2-dev libxslt-dev tzdata yaml-dev postgresql-dev" \
-    RUBY_PACKAGES=""
+FROM node:14-stretch-slim
 
-RUN apk update && \
-    apk upgrade && \
-    apk add --update\
-    $BUILD_PACKAGES \
-    $DEV_PACKAGES \
-    $RUBY_PACKAGES && \
-    rm -rf /var/cache/apk/*
+WORKDIR /app
+COPY --from=builder /app/package*.json /app/
+COPY --from=builder /app/dist/ /app/dist/
+RUN npm ci --only=production
 
-USER 1000
-COPY . /code
-WORKDIR /code
+EXPOSE 3000
 
-RUN bundle install
-
-CMD ["bundle", "exec", "puma", "config.ru", "-C", "puma.rb"]
+CMD ["node", "dist/main.js"]

@@ -121,6 +121,8 @@ module Crawler
         item[:price_per_sqm] = (item[:price].to_f / item[:house_area].to_f).round(2) if item[:price] && item[:house_area]
 
         save_room(item)
+
+        process.exit!
       rescue StandardError => e
         logger.error e
       end

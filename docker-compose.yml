@@ -2,34 +2,37 @@ version: "3"
 
 services:
   db:
-    container_name: room-map-db
-    image: postgres:12.1-alpine
+    image: postgres:12.6-alpine
     restart: always
     volumes:
       - ./db:/var/lib/postgresql/data
       - ./db-backup:/db-backup
     environment:
       - POSTGRES_DB=room-map
-    ports:
-      - "5432:5432"
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
   receiver:
-    container_name: room-map-receiver
     build: ./room-map-receiver
     restart: always
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=room-map
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+    ports:
+      - "9021:3000"
     depends_on:
       - db
-    environment:
-      - DBHOST=db
-      - RACK_ENV=production
-    ports:
-      - "9014:3000"
-  web:
-    container_name: room-map-web
-    build: ./room-map-web
-    restart: always
-    depends_on:
-      - db
-    ports:
-      - "9015:3000"
-    environment:
-      - DBHOST=db
+    volumes:
+      - ./wait-for-pg.sh:/wait-for-pg.sh
+    command: ["/wait-for-pg.sh", "db:5432", "--", "node", "dist/main.js"]
+  # web:
+  #   container_name: room-map-web
+  #   build: ./room-map-web
+  #   restart: always
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - "9020:3000"
+  #   environment:
+  #     - DBHOST=db
