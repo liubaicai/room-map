@@ -7,6 +7,39 @@ import { Resp } from './model/Resp';
 export class AppService {
   constructor(private connection: Connection) {}
 
+  roomKeys: string[] = [
+    'id',
+    'title',
+    'origin',
+    'url',
+    'code',
+    'publish_time',
+    'price',
+    'price_per_sqm',
+    'price_type',
+    'price_rent',
+    'price_deposit',
+    'price_service',
+    'price_agent',
+    'position_district',
+    'position_region',
+    'position_community',
+    'position_longitude',
+    'position_latitude',
+    'lease_type',
+    'house_layout',
+    'house_area',
+    'house_face',
+    'house_floor',
+    'house_lift',
+    'house_water',
+    'house_electric',
+    'house_gas',
+    'house_heating',
+    'create_time',
+    'update_time',
+  ];
+
   getHello(): Resp {
     return {
       code: 0,
@@ -29,21 +62,44 @@ export class AppService {
     const repo = this.connection.getRepository(Room);
     const searcher = repo.createQueryBuilder('room').select('room');
 
-    Object.keys(body).forEach((key) => {
+    const filters = [];
+    const params = [];
+    for (let index = 0; index < Object.keys(body).length; index++) {
+      const key = Object.keys(body)[index];
       if (key.startsWith('in_')) {
         const kk = key.slice(3);
-        const arr = body[key].map((m) => `'${m}'`);
-        searcher.andWhere(`room.${kk} IN (${[...arr]})`);
+        if (this.roomKeys.indexOf(kk) > -1) {
+          params[key] = body[key];
+          filters.push(`${kk} IN (:...${key})`);
+        }
       } else if (key.startsWith('min_')) {
         const kk = key.slice(4);
-        searcher.andWhere(`room.${kk} >= '${body[key]}'`);
+        if (this.roomKeys.indexOf(kk) > -1) {
+          params[key] = body[key];
+          filters.push(`${kk} >= :${key}`);
+        }
       } else if (key.startsWith('max_')) {
         const kk = key.slice(4);
-        searcher.andWhere(`room.${kk} <= '${body[key]}'`);
+        if (this.roomKeys.indexOf(kk) > -1) {
+          params[key] = body[key];
+          filters.push(`${kk} <= :${key}`);
+        }
+      } else if (key.startsWith('like_')) {
+        const kk = key.slice(5);
+        if (this.roomKeys.indexOf(kk) > -1) {
+          params[key] = `%${body[key]}%`;
+          filters.push(`${kk} LIKE :${key}`);
+        }
       } else {
-        searcher.andWhere(`room.${key} = '${body[key]}'`);
+        if (this.roomKeys.indexOf(key) > -1) {
+          params[key] = body[key];
+          filters.push(`${key} = :${key}`);
+        }
       }
-    });
+    }
+    const sqLExpr = filters.join(` AND `);
+
+    searcher.where(`(${sqLExpr})`, params);
 
     searcher
       .orderBy({

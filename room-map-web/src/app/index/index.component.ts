@@ -12,7 +12,9 @@ export class IndexComponent implements OnInit {
   size: number = 10;
   filters: {} = {
     origin: '自如',
-    max_price: '10000',
+    like_title: '南',
+    min_price: '1000',
+    max_price: '8000',
     in_position_district: ['丰台', '朝阳', '海淀', '大兴', '石景山'],
   };
   rooms: [] = [];
@@ -42,6 +44,6 @@ export class IndexComponent implements OnInit {
   }
 
   onPageChange(e) {
-    this.getData(e)
+    this.getData(e);
   }
 }
