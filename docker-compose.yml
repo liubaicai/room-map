@@ -11,8 +11,8 @@ services:
       - POSTGRES_DB=room-map
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-  receiver:
-    build: ./room-map-receiver
+  server:
+    build: ./room-map-server
     restart: always
     environment:
       - DB_HOST=db

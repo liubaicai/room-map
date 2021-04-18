@@ -1,0 +1,31 @@
+<p>index works!</p>
+<nz-table
+  #basicTable
+  [nzData]="rooms"
+  [nzFrontPagination]="false"
+  [nzPageSize]="size"
+  [nzTotal]="total"
+  [nzPageIndex]="page"
+  (nzPageIndexChange)="onPageChange($event)"
+>
+  <thead>
+    <tr>
+      <th>title</th>
+      <th>origin</th>
+      <th>house_layout</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.title }}</td>
+      <td>{{ data.origin }}</td>
+      <td>{{ data.house_layout }}</td>
+      <td>
+        <a>Action 一 {{ data.id }}</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>Delete</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

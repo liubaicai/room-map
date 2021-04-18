@@ -1,56 +1,35 @@
 {
   "name": "room-map-web",
-  "version": "1.0.0",
-  "description": "My stellar Nuxt.js project",
-  "author": "刘白菜",
-  "private": true,
+  "version": "0.0.0",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server --exec babel-node",
-    "build": "nuxt build",
-    "start": "cross-env NODE_ENV=production babel-node server/index.js",
-    "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
+    "dev": "ng serve",
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build"
   },
-  "lint-staged": {
-    "*.{js,vue}": "npm run lint"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
+  "private": true,
   "dependencies": {
-    "@antv/g2": "^4.0.7",
-    "@nuxtjs/axios": "^5.3.6",
-    "@nuxtjs/dotenv": "^1.4.0",
-    "ant-design-vue": "^1.5.4",
-    "cross-env": "^5.2.0",
-    "express": "^4.16.4",
-    "nuxt": "^2.0.0",
-    "pg": "^8.0.3",
-    "sequelize": "^5.21.7"
+    "@angular/animations": "~11.2.10",
+    "@angular/common": "~11.2.10",
+    "@angular/compiler": "~11.2.10",
+    "@angular/core": "~11.2.10",
+    "@angular/forms": "~11.2.10",
+    "@angular/platform-browser": "~11.2.10",
+    "@angular/platform-browser-dynamic": "~11.2.10",
+    "@angular/router": "~11.2.10",
+    "ng-zorro-antd": "^11.4.0",
+    "rxjs": "~6.6.0",
+    "tslib": "^2.0.0",
+    "zone.js": "~0.11.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/node": "^7.8.7",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
-    "@nuxtjs/eslint-config": "^2.0.0",
-    "@nuxtjs/eslint-module": "^1.0.0",
-    "babel-eslint": "^10.0.1",
-    "babel-preset-env": "^1.7.0",
-    "css-loader": "^3.5.3",
-    "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-nuxt": ">=0.4.2",
-    "eslint-plugin-prettier": "^3.1.2",
-    "husky": "^4.0.0",
-    "less": "^3.11.1",
-    "less-loader": "^6.0.0",
-    "lint-staged": "^10.0.0",
-    "nodemon": "^1.18.9",
-    "nuxt-babel": "^1.0.1",
-    "prettier": "^1.19.1",
-    "style-loader": "^1.2.1"
+    "@angular-devkit/build-angular": "~0.1102.9",
+    "@angular/cli": "~11.2.9",
+    "@angular/compiler-cli": "~11.2.10",
+    "@types/node": "^12.11.1",
+    "codelyzer": "^6.0.0",
+    "ts-node": "~8.3.0",
+    "tslint": "~6.1.0",
+    "typescript": "~4.1.5"
   }
 }
