@@ -33,6 +33,26 @@ Kimurai.configure do |config|
   # config.chromedriver_path = "~/.local/bin/chromedriver"
 end
 
+module Kimurai
+  module BaseHelper
+    private
+
+    def absolute_url(url, base:)
+      return unless url
+      URI.join(base, CGI.escape(url)).to_s
+    end
+
+    def escape_url(url)
+      uri = URI.parse(url)
+    rescue URI::InvalidURIError => e
+      URI.parse(CGI.escape url).to_s rescue url
+    else
+      url
+    end
+  end
+end
+
+
 module Crawler
   class Error < StandardError; end
 end

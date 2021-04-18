@@ -25,7 +25,7 @@ services:
       - db
     volumes:
       - ./wait-for-pg.sh:/wait-for-pg.sh
-    command: ["/wait-for-pg.sh", "db:5432", "--", "node", "dist/main.js"]
+    command: ["/wait-for-pg.sh", "db", "node", "dist/main.js"]
   # web:
   #   container_name: room-map-web
   #   build: ./room-map-web

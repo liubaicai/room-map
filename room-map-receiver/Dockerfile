@@ -1,10 +1,12 @@
-FROM node:14-stretch-slim as builder
+FROM node:14-alpine3.13 as builder
 
 WORKDIR /app
 COPY . /app
 RUN npm ci && npm run build
 
-FROM node:14-stretch-slim
+FROM node:14-alpine3.13
+
+RUN apk add --no-cache postgresql-client
 
 WORKDIR /app
 COPY --from=builder /app/package*.json /app/
