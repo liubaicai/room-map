@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -19,7 +20,7 @@ export class IndexComponent implements OnInit {
   };
   rooms: [] = [];
 
-  constructor(private api: ApiService) {}
+  constructor(private router: Router, private api: ApiService) {}
 
   ngOnInit(): void {}
 
@@ -45,5 +46,9 @@ export class IndexComponent implements OnInit {
 
   onPageChange(e) {
     this.getData(e);
+  }
+
+  toDetail(e) {
+    this.router.navigateByUrl(`/room/${e.id}`);
   }
 }

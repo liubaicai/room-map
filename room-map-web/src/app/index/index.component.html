@@ -1,4 +1,15 @@
 <p>index works!</p>
+<div nz-row>
+  <div nz-col nzSpan="8">
+    <input nz-input placeholder="origin" [(ngModel)]="filters['origin']" />
+  </div>
+  <div nz-col nzSpan="8">
+    <input nz-input placeholder="like_title" [(ngModel)]="filters['like_title']" />
+  </div>
+  <div nz-col nzSpan="8">
+  <button nz-button nzType="text" (click)="getData(1)">搜索</button>
+</div>
+</div>
 <nz-table
   #basicTable
   [nzData]="rooms"
@@ -22,9 +33,7 @@
       <td>{{ data.origin }}</td>
       <td>{{ data.house_layout }}</td>
       <td>
-        <a>Action 一 {{ data.id }}</a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a>Delete</a>
+        <button nz-button nzType="text" (click)="toDetail(data)">详情</button>
       </td>
     </tr>
   </tbody>

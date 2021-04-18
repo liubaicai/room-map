@@ -14,7 +14,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 registerLocaleData(zh);
 
@@ -31,7 +33,9 @@ registerLocaleData(zh);
     HttpClientModule,
     BrowserAnimationsModule,
     NzTableModule,
-    NzDividerModule
+    NzButtonModule,
+    NzGridModule,
+    NzInputModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]
