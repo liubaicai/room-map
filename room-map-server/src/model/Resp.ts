@@ -3,7 +3,7 @@ import { Room } from 'src/entity/Room';
 export interface Resp {
   code: number;
   message: string;
-  data?: RespData;
+  data?: RespData | any;
 }
 
 export interface RespData {

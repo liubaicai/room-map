@@ -14,4 +14,8 @@ export class ApiService {
       })
       .toPromise();
   }
+
+  count(): any {
+    return this.http.get('http://localhost:3000/count').toPromise();
+  }
 }

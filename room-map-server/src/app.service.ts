@@ -62,44 +62,57 @@ export class AppService {
     const repo = this.connection.getRepository(Room);
     const searcher = repo.createQueryBuilder('room').select('room');
 
-    const filters = [];
-    const params = [];
-    for (let index = 0; index < Object.keys(body).length; index++) {
-      const key = Object.keys(body)[index];
-      if (key.startsWith('in_')) {
-        const kk = key.slice(3);
-        if (this.roomKeys.indexOf(kk) > -1) {
-          params[key] = body[key];
-          filters.push(`${kk} IN (:...${key})`);
-        }
-      } else if (key.startsWith('min_')) {
-        const kk = key.slice(4);
-        if (this.roomKeys.indexOf(kk) > -1) {
-          params[key] = body[key];
-          filters.push(`${kk} >= :${key}`);
-        }
-      } else if (key.startsWith('max_')) {
-        const kk = key.slice(4);
-        if (this.roomKeys.indexOf(kk) > -1) {
-          params[key] = body[key];
-          filters.push(`${kk} <= :${key}`);
-        }
-      } else if (key.startsWith('like_')) {
-        const kk = key.slice(5);
-        if (this.roomKeys.indexOf(kk) > -1) {
-          params[key] = `%${body[key]}%`;
-          filters.push(`${kk} LIKE :${key}`);
-        }
-      } else {
-        if (this.roomKeys.indexOf(key) > -1) {
-          params[key] = body[key];
-          filters.push(`${key} = :${key}`);
+    if (Object.keys(body).length > 0) {
+      const filters = [];
+      const params = [];
+      for (let index = 0; index < Object.keys(body).length; index++) {
+        const key = Object.keys(body)[index];
+        if (key.startsWith('in_')) {
+          const kk = key.slice(3);
+          if (this.roomKeys.indexOf(kk) > -1) {
+            if (body[key] && body[key].length > 0) {
+              params[key] = body[key];
+              filters.push(`${kk} IN (:...${key})`);
+            }
+          }
+        } else if (key.startsWith('min_')) {
+          const kk = key.slice(4);
+          if (this.roomKeys.indexOf(kk) > -1) {
+            if (body[key]) {
+              params[key] = body[key];
+              filters.push(`${kk} >= :${key}`);
+            }
+          }
+        } else if (key.startsWith('max_')) {
+          const kk = key.slice(4);
+          if (this.roomKeys.indexOf(kk) > -1) {
+            if (body[key]) {
+              params[key] = body[key];
+              filters.push(`${kk} <= :${key}`);
+            }
+          }
+        } else if (key.startsWith('like_')) {
+          const kk = key.slice(5);
+          if (this.roomKeys.indexOf(kk) > -1) {
+            if (body[key]) {
+              params[key] = `%${body[key]}%`;
+              filters.push(`${kk} LIKE :${key}`);
+            }
+          }
+        } else {
+          if (this.roomKeys.indexOf(key) > -1) {
+            if (body[key]) {
+              params[key] = body[key];
+              filters.push(`${key} = :${key}`);
+            }
+          }
         }
       }
+      const sqLExpr = filters.join(` AND `);
+      if (sqLExpr) {
+        searcher.where(`(${sqLExpr})`, params);
+      }
     }
-    const sqLExpr = filters.join(` AND `);
-
-    searcher.where(`(${sqLExpr})`, params);
 
     searcher
       .orderBy({

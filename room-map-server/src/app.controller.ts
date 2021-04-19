@@ -23,6 +23,17 @@ export class AppController {
     return resp;
   }
 
+  @Get('count')
+  async countRooms(): Promise<Resp> {
+    const count = await this.appService.getRoomsCount();
+    const resp = {
+      code: 0,
+      message: 'success',
+      data: count,
+    };
+    return resp;
+  }
+
   @Post('search')
   async getRooms(@Query() query, @Body() searchBody): Promise<Resp> {
     const page = parseInt(query.page, 10) || 0;

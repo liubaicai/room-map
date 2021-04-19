@@ -11,21 +11,23 @@ services:
       - POSTGRES_DB=room-map
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-  server:
-    build: ./room-map-server
-    restart: always
-    environment:
-      - DB_HOST=db
-      - DB_DATABASE=room-map
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
     ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    volumes:
-      - ./wait-for-pg.sh:/wait-for-pg.sh
-    command: ["/wait-for-pg.sh", "db", "node", "dist/main.js"]
+      - "5432:5432"
+  # server:
+  #   build: ./room-map-server
+  #   restart: always
+  #   environment:
+  #     - DB_HOST=db
+  #     - DB_DATABASE=room-map
+  #     - DB_USERNAME=postgres
+  #     - DB_PASSWORD=postgres
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - db
+    # volumes:
+    #   - ./wait-for-pg.sh:/wait-for-pg.sh
+    # command: ["/wait-for-pg.sh", "db", "node", "dist/main.js"]
   # web:
   #   container_name: room-map-web
   #   build: ./room-map-web

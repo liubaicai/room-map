@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -8,40 +8,71 @@ import { ApiService } from '../api.service';
   styleUrls: ['./index.component.scss'],
 })
 export class IndexComponent implements OnInit {
+  allCount: number = 0;
   total: number = 0;
   page: number = 1;
   size: number = 10;
+  tableLoading: boolean = false;
   filters: {} = {
-    origin: '自如',
-    like_title: '南',
-    min_price: '1000',
-    max_price: '8000',
-    in_position_district: ['丰台', '朝阳', '海淀', '大兴', '石景山'],
   };
   rooms: [] = [];
+  expandSet = new Set<number>();
+  listOfDistrict: string[] = [
+    '东城',
+    '西城',
+    '朝阳',
+    '海淀',
+    '丰台',
+    '石景山',
+    '通州',
+    '昌平',
+    '大兴',
+    '亦庄开发区',
+    '顺义',
+    '房山',
+    '门头沟',
+    '平谷',
+    '怀柔',
+    '密云',
+    '延庆',
+  ];
 
-  constructor(private router: Router, private api: ApiService) {}
+  constructor(private api: ApiService) {}
 
   ngOnInit(): void {}
 
   ngAfterContentInit(): void {
+    this.getAllCount();
     this.getData();
   }
 
   async getData(page: number = 0) {
-    if (page) {
-      this.page = page;
+    this.tableLoading = true;
+    try {
+      if (page) {
+        this.page = page;
+      }
+      const body = this.filters;
+      const result = await this.api.search(
+        {
+          page: this.page - 1,
+          size: this.size,
+        },
+        body
+      );
+      this.total = result?.data?.total || 0;
+      this.rooms = result?.data?.content || [];
+    } finally {
+      setTimeout(() => {
+        this.tableLoading = false;
+      }, 100);
     }
-    const body = this.filters;
-    const result = await this.api.search(
-      {
-        page: this.page - 1,
-        size: this.size,
-      },
-      body
-    );
-    this.total = result?.data?.total || 0;
-    this.rooms = result?.data?.content || [];
+  }
+
+  async getAllCount() {
+    this.tableLoading = true;
+    const result = await this.api.count();
+    this.allCount = result?.data || 0;
   }
 
   onPageChange(e) {
@@ -49,6 +80,18 @@ export class IndexComponent implements OnInit {
   }
 
   toDetail(e) {
-    this.router.navigateByUrl(`/room/${e.id}`);
+    window.open(e.url);
+  }
+
+  jsonStringify(obj) {
+    return JSON.stringify(obj, null, 2)
+  }
+
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
   }
 }

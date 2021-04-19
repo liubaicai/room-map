@@ -1,40 +1,230 @@
-<p>index works!</p>
-<div nz-row>
-  <div nz-col nzSpan="8">
-    <input nz-input placeholder="origin" [(ngModel)]="filters['origin']" />
-  </div>
-  <div nz-col nzSpan="8">
-    <input nz-input placeholder="like_title" [(ngModel)]="filters['like_title']" />
-  </div>
-  <div nz-col nzSpan="8">
-  <button nz-button nzType="text" (click)="getData(1)">搜索</button>
+<div>
+  <nz-page-header class="site-page-header" [nzTitle]="headerPlaceHolder">
+  </nz-page-header>
+  <ng-template #headerPlaceHolder let-selectedList
+    >room-map works, {{ allCount }} rooms found!
+  </ng-template>
 </div>
+<div class="filters">
+  <div class="filter">
+    <div class="filter-label">
+      <span>标题</span>
+    </div>
+    <div class="filter-input">
+      <input
+        nz-input
+        placeholder="请输入标题(模糊)"
+        [(ngModel)]="filters['like_title']"
+      />
+    </div>
+  </div>
+  <div class="filter">
+    <div class="filter-label">
+      <span>区县</span>
+    </div>
+    <div class="filter-input">
+      <nz-select
+        [nzMaxTagCount]="1"
+        nzMode="multiple"
+        nzPlaceHolder="请选择区县"
+        [(ngModel)]="filters['in_position_district']"
+      >
+        <nz-option
+          *ngFor="let item of listOfDistrict"
+          [nzLabel]="item"
+          [nzValue]="item"
+        ></nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <div class="filter">
+    <div class="filter-label">
+      <span>地区</span>
+    </div>
+    <div class="filter-input">
+      <input
+        nz-input
+        placeholder="请输入地区(模糊)"
+        [(ngModel)]="filters['like_position_region']"
+      />
+    </div>
+  </div>
+  <div class="filter">
+    <div class="filter-label">
+      <span>租金</span>
+    </div>
+    <div class="filter-input">
+      <nz-input-group nzCompact>
+        <input
+          type="text"
+          nz-input
+          placeholder="最小"
+          [(ngModel)]="filters['min_price']"
+          class="group-input-left"
+        />
+        <input
+          type="text"
+          disabled
+          nz-input
+          placeholder="~"
+          class="group-input-center"
+        />
+        <input
+          type="text"
+          nz-input
+          placeholder="最大"
+          [(ngModel)]="filters['max_price']"
+          class="group-input-right"
+        />
+      </nz-input-group>
+    </div>
+  </div>
+  <div class="filter">
+    <div class="filter-label">
+      <span>面积</span>
+    </div>
+    <div class="filter-input">
+      <nz-input-group nzCompact>
+        <input
+          type="text"
+          nz-input
+          placeholder="最小"
+          [(ngModel)]="filters['min_house_area']"
+          class="group-input-left"
+        />
+        <input
+          type="text"
+          disabled
+          nz-input
+          placeholder="~"
+          class="group-input-center"
+        />
+        <input
+          type="text"
+          nz-input
+          placeholder="最大"
+          [(ngModel)]="filters['max_house_area']"
+          class="group-input-right"
+        />
+      </nz-input-group>
+    </div>
+  </div>
+  <div class="filter">
+    <div class="filter-label">
+      <span>房屋来源</span>
+    </div>
+    <div class="filter-input">
+      <nz-select nzPlaceHolder="请选择房屋来源" [(ngModel)]="filters['origin']">
+        <nz-option [nzLabel]="'自如'" [nzValue]="'自如'"></nz-option>
+        <nz-option [nzLabel]="'链家'" [nzValue]="'链家'"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <div class="filter">
+    <div class="filter-label">
+      <span>租赁方式</span>
+    </div>
+    <div class="filter-input">
+      <nz-select
+        nzPlaceHolder="请选择租赁方式"
+        [(ngModel)]="filters['lease_type']"
+      >
+        <nz-option [nzLabel]="'合租'" [nzValue]="'合租'"></nz-option>
+        <nz-option [nzLabel]="'整租'" [nzValue]="'整租'"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <div class="filter nz-date-picker">
+    <div class="filter-label">
+      <span>发布时间</span>
+    </div>
+    <div class="filter-input">
+      <nz-input-group nzCompact>
+        <nz-date-picker
+          nzShowTime
+          nzFormat="yyyy-MM-dd HH:mm:ss"
+          [(ngModel)]="filters['min_publish_time']"
+          nzPlaceHolder="开始"
+          class="group-input-left"
+        ></nz-date-picker>
+        <input
+          type="text"
+          disabled
+          nz-input
+          placeholder="~"
+          class="group-input-center"
+        />
+        <nz-date-picker
+          nzShowTime
+          nzFormat="yyyy-MM-dd HH:mm:ss"
+          [(ngModel)]="filters['max_publish_time']"
+          nzPlaceHolder="结束"
+          class="group-input-right"
+        ></nz-date-picker>
+      </nz-input-group>
+    </div>
+  </div>
+</div>
+<div class="filters-submit">
+  <button
+    nz-button
+    style="margin-right: 20px"
+    (click)="filters = {}; getData(1)"
+  >
+    <i nz-icon nzType="search"></i>重置
+  </button>
+  <button nz-button nzType="primary" (click)="getData(1)">
+    <i nz-icon nzType="search"></i>搜索
+  </button>
 </div>
 <nz-table
-  #basicTable
+  #nzTable
   [nzData]="rooms"
+  [nzSize]="'small'"
   [nzFrontPagination]="false"
+  [nzShowSizeChanger]="true"
   [nzPageSize]="size"
   [nzTotal]="total"
   [nzPageIndex]="page"
+  [(nzLoading)]="tableLoading"
   (nzPageIndexChange)="onPageChange($event)"
 >
   <thead>
     <tr>
-      <th>title</th>
-      <th>origin</th>
-      <th>house_layout</th>
-      <th>Action</th>
+      <th nzWidth="60px"></th>
+      <th>地区</th>
+      <th>标题</th>
+      <th>租金</th>
+      <th>面积</th>
+      <th>楼层</th>
+      <th>房屋来源</th>
+      <th>租赁方式</th>
+      <th>发布时间</th>
+      <th>操作</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of basicTable.data">
-      <td>{{ data.title }}</td>
-      <td>{{ data.origin }}</td>
-      <td>{{ data.house_layout }}</td>
-      <td>
-        <button nz-button nzType="text" (click)="toDetail(data)">详情</button>
-      </td>
-    </tr>
+    <ng-container *ngFor="let data of nzTable.data">
+      <tr>
+        <td
+          [nzExpand]="expandSet.has(data.id)"
+          (nzExpandChange)="onExpandChange(data.id, $event)"
+        ></td>
+        <td>{{ data.position_district }} - {{ data.position_region }}</td>
+        <td>{{ data.title }}</td>
+        <td>{{ data.price }}/月</td>
+        <td>{{ data.house_area }}㎡</td>
+        <td>{{ data.house_floor }}</td>
+        <td>{{ data.origin }}</td>
+        <td>{{ data.lease_type }}</td>
+        <td>{{ data.publish_time }}</td>
+        <td>
+          <div style="cursor: pointer" (click)="toDetail(data)">详情</div>
+        </td>
+      </tr>
+      <tr [nzExpand]="expandSet.has(data.id)">
+        <div>{{ jsonStringify(data) }}</div>
+      </tr>
+    </ng-container>
   </tbody>
 </nz-table>
