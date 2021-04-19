@@ -91,6 +91,8 @@ module Crawler
         item[:code] = "BK-#{response.xpath("//i[@class='house_code' and contains(., '房源编号：')]")[0].text.squish.split('：')[1]}"
         item[:publish_time] = response.xpath("//div[@class='content__subtitle']/text()").text.squish.split('：')[1]
 
+        item[:tags] = response.xpath("//p[@class='content__aside--tags']//i").map { |i| i.text.squish }
+
         # return false unless Date.parse(item[:publish_time]) > Date.today - 10
 
         item[:price] = response.xpath("//div[@class='content__aside--title']/span[1]").text.squish
