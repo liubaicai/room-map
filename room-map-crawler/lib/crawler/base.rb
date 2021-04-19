@@ -21,8 +21,8 @@ module Crawler
       # puts JSON.pretty_generate(item)
       # exit!
 
-      host = ENV['RECEIVER_HOST'] || 'localhost'
-      port = ENV['RECEIVER_PORT'] || 3000
+      host = ENV['SERVER_URL'] || 'localhost'
+      port = ENV['SERVER_PORT'] || 3000
       uri = URI("http://#{host}:#{port}/rooms")
       req = Net::HTTP::Post.new(uri)
       req.set_form_data(item)

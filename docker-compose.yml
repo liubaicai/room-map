@@ -25,7 +25,6 @@ services:
       - ./wait-for-pg.sh:/wait-for-pg.sh
     command: ["/wait-for-pg.sh", "db", "node", "dist/main.js"]
   web:
-    container_name: room-map-web
     build: ./room-map-web
     restart: always
     depends_on:
