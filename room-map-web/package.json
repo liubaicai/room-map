@@ -5,7 +5,8 @@
     "dev": "ng serve",
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build"
+    "build": "ng build",
+    "build:prod": "ng build --prod"
   },
   "private": true,
   "dependencies": {

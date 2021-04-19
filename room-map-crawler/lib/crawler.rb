@@ -39,7 +39,7 @@ module Kimurai
 
     def absolute_url(url, base:)
       return unless url
-      URI.join(base, CGI.escape(url)).to_s
+      URI.join(base, url).to_s
     end
 
     def escape_url(url)

@@ -19,20 +19,16 @@ services:
       - DB_DATABASE=room-map
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
-    ports:
-      - "3000:3000"
     depends_on:
       - db
     volumes:
       - ./wait-for-pg.sh:/wait-for-pg.sh
     command: ["/wait-for-pg.sh", "db", "node", "dist/main.js"]
-  # web:
-  #   container_name: room-map-web
-  #   build: ./room-map-web
-  #   restart: always
-  #   depends_on:
-  #     - db
-  #   ports:
-  #     - "9020:3000"
-  #   environment:
-  #     - DBHOST=db
+  web:
+    container_name: room-map-web
+    build: ./room-map-web
+    restart: always
+    depends_on:
+      - server
+    ports:
+      - "9080:80"

@@ -14,6 +14,7 @@ export class AppService {
     'url',
     'code',
     'publish_time',
+    'tags',
     'price',
     'price_per_sqm',
     'price_type',
