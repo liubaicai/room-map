@@ -9,13 +9,13 @@ export class ApiService {
 
   search(params, body): any {
     return this.http
-      .post('http://localhost:3000/search', body, {
+      .post('/api/search', body, {
         params: params,
       })
       .toPromise();
   }
 
   count(): any {
-    return this.http.get('http://localhost:3000/count').toPromise();
+    return this.http.get('/api/count').toPromise();
   }
 }
