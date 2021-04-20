@@ -1,9 +1,7 @@
-<div>
-  <nz-page-header class="site-page-header" [nzTitle]="headerPlaceHolder">
-  </nz-page-header>
-  <ng-template #headerPlaceHolder let-selectedList
-    >room-map works, {{ allCount }} rooms found!
-  </ng-template>
+<div class="header">
+  <i nz-icon nzType="home" nzTheme="outline"></i>
+  it works,
+  <span style="font-weight: bold">{{ (allCount | number)! }}</span> rooms found!
 </div>
 <div class="filters">
   <div class="filter">
@@ -11,11 +9,24 @@
       <span>标题</span>
     </div>
     <div class="filter-input">
-      <input
-        nz-input
-        placeholder="请输入标题(模糊)"
-        [(ngModel)]="filters['like_title']"
-      />
+      <nz-input-group [nzSuffix]="inputTitleClearTpl">
+        <input
+          type="text"
+          nz-input
+          [(ngModel)]="filters['like_title']"
+          placeholder="请输入标题(模糊)"
+        />
+      </nz-input-group>
+      <ng-template #inputTitleClearTpl
+        ><i
+          nz-icon
+          class="ant-input-clear-icon"
+          nzTheme="fill"
+          nzType="close-circle"
+          *ngIf="filters['like_title']"
+          (click)="filters['like_title'] = ''"
+        ></i
+      ></ng-template>
     </div>
   </div>
   <div class="filter">
@@ -24,6 +35,7 @@
     </div>
     <div class="filter-input">
       <nz-select
+        [nzAllowClear]="true"
         [nzMaxTagCount]="1"
         nzMode="multiple"
         nzPlaceHolder="请选择区县"
@@ -42,11 +54,24 @@
       <span>地区</span>
     </div>
     <div class="filter-input">
-      <input
-        nz-input
-        placeholder="请输入地区(模糊)"
-        [(ngModel)]="filters['like_position_region']"
-      />
+      <nz-input-group [nzSuffix]="inputRegionClearTpl">
+        <input
+          type="text"
+          nz-input
+          [(ngModel)]="filters['like_position_region']"
+          placeholder="请输入地区(模糊)"
+        />
+      </nz-input-group>
+      <ng-template #inputRegionClearTpl
+        ><i
+          nz-icon
+          class="ant-input-clear-icon"
+          nzTheme="fill"
+          nzType="close-circle"
+          *ngIf="filters['like_position_region']"
+          (click)="filters['like_position_region'] = ''"
+        ></i
+      ></ng-template>
     </div>
   </div>
   <div class="filter">
@@ -114,7 +139,11 @@
       <span>房屋来源</span>
     </div>
     <div class="filter-input">
-      <nz-select nzPlaceHolder="请选择房屋来源" [(ngModel)]="filters['origin']">
+      <nz-select
+        [nzAllowClear]="true"
+        nzPlaceHolder="请选择房屋来源"
+        [(ngModel)]="filters['origin']"
+      >
         <nz-option [nzLabel]="'自如'" [nzValue]="'自如'"></nz-option>
         <nz-option [nzLabel]="'链家'" [nzValue]="'链家'"></nz-option>
       </nz-select>
@@ -126,6 +155,7 @@
     </div>
     <div class="filter-input">
       <nz-select
+        [nzAllowClear]="true"
         nzPlaceHolder="请选择租赁方式"
         [(ngModel)]="filters['lease_type']"
       >
@@ -181,11 +211,11 @@
   <button
     nz-button
     style="margin-right: 20px"
-    (click)="filters = {}; getData(1)"
+    (click)="filters = {}; onSearch()"
   >
     <i nz-icon nzType="search"></i>重置
   </button>
-  <button nz-button nzType="primary" (click)="getData(1)">
+  <button nz-button nzType="primary" (click)="onSearch()">
     <i nz-icon nzType="search"></i>搜索
   </button>
 </div>
@@ -198,12 +228,13 @@
   [nzPageSize]="size"
   [nzTotal]="total"
   [nzPageIndex]="page"
+  [nzShowTotal]="totalTemplate"
   [(nzLoading)]="tableLoading"
   (nzPageIndexChange)="onPageChange($event)"
+  (nzPageSizeChange)="onPageSizeChange($event)"
 >
   <thead>
     <tr>
-      <th nzWidth="60px"></th>
       <th>地区</th>
       <th>标题</th>
       <th>租金</th>
@@ -213,34 +244,46 @@
       <th>房屋来源</th>
       <th>租赁方式</th>
       <th>发布时间</th>
+      <th nzWidth="60px"></th>
       <th>操作</th>
     </tr>
   </thead>
   <tbody>
     <ng-container *ngFor="let data of nzTable.data">
       <tr>
-        <td
-          [nzExpand]="expandSet.has(data.id)"
-          (nzExpandChange)="onExpandChange(data.id, $event)"
-        ></td>
         <td>{{ data.position_district }} - {{ data.position_region }}</td>
         <td>{{ data.title }}</td>
         <td>{{ data.price }}/月</td>
         <td>{{ data.house_area }}㎡</td>
         <td>{{ data.house_floor }}</td>
         <td>
-          <nz-tag *ngFor="let tag of data.tags" [nzColor]="'cyan'">{{tag}}</nz-tag>
+          <nz-tag *ngFor="let tag of data.tags" [nzColor]="'cyan'">{{
+            tag
+          }}</nz-tag>
         </td>
         <td>{{ data.origin }}</td>
         <td>{{ data.lease_type }}</td>
-        <td>{{ data.publish_time | date:'longDate':'+0800':'zh' }}</td>
+        <td>{{ data.publish_time | date: "longDate":"+0800":"zh" }}</td>
+        <td
+          [nzExpand]="expandSet.has(data.id)"
+          (nzExpandChange)="onExpandChange(data.id, $event)"
+        ></td>
         <td>
-          <div style="cursor: pointer" (click)="toDetail(data)">详情</div>
+          <div style="cursor: pointer" (click)="toDetail(data)">链接</div>
         </td>
       </tr>
       <tr [nzExpand]="expandSet.has(data.id)">
-        <div>{{ jsonStringify(data) }}</div>
+        <div class="table-expand">
+          <nz-descriptions nzBordered nzSize="small">
+            <nz-descriptions-item
+              *ngFor="let key of keysOfObject(data)"
+              [nzTitle]="propsOfRoom[key]"
+              >{{ data[key] }}</nz-descriptions-item
+            >
+          </nz-descriptions>
+        </div>
       </tr>
     </ng-container>
   </tbody>
 </nz-table>
+<ng-template #totalTemplate let-total>共 {{ total }} 条</ng-template>

@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -11,10 +10,9 @@ export class IndexComponent implements OnInit {
   allCount: number = 0;
   total: number = 0;
   page: number = 1;
-  size: number = 10;
+  size: number = parseInt(localStorage.getItem('size'), 10) || 10;
   tableLoading: boolean = false;
-  filters: {} = {
-  };
+  filters: {} = {};
   rooms: [] = [];
   expandSet = new Set<number>();
   listOfDistrict: string[] = [
@@ -36,10 +34,45 @@ export class IndexComponent implements OnInit {
     '密云',
     '延庆',
   ];
+  propsOfRoom: {} = {
+    code: '房源编号',
+    create_time: '创建时间',
+    house_area: '面积',
+    house_electric: '电',
+    house_face: '朝向',
+    house_floor: '楼层',
+    house_gas: '燃气',
+    house_heating: '供暖',
+    house_layout: '户型',
+    house_lift: '电梯',
+    house_water: '水',
+    id: 'ID',
+    lease_type: '租赁方式',
+    origin: '房屋来源',
+    position_community: '地址',
+    position_district: '区县',
+    position_latitude: '维度',
+    position_longitude: '经度',
+    position_region: '街道/乡镇',
+    price: '租金',
+    price_agent: '中介费',
+    price_deposit: '押金',
+    price_per_sqm: '每平米租金',
+    price_rent: '租金',
+    price_service: '服务费',
+    price_type: '支付方式',
+    publish_time: '发布时间',
+    tags: '标签',
+    title: '标题',
+    update_time: '更新时间',
+    url: '源地址',
+  };
 
   constructor(private api: ApiService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.filters = JSON.parse(localStorage.getItem('filters')) || {};
+  }
 
   ngAfterContentInit(): void {
     this.getAllCount();
@@ -69,6 +102,11 @@ export class IndexComponent implements OnInit {
     }
   }
 
+  onSearch() {
+    this.onFiltersChange(this.filters);
+    this.getData(1);
+  }
+
   async getAllCount() {
     this.tableLoading = true;
     const result = await this.api.count();
@@ -79,12 +117,18 @@ export class IndexComponent implements OnInit {
     this.getData(e);
   }
 
+  onPageSizeChange(e) {
+    this.size = e;
+    localStorage.setItem('size', e);
+    this.getData(1);
+  }
+
   toDetail(e) {
     window.open(e.url);
   }
 
-  jsonStringify(obj) {
-    return JSON.stringify(obj, null, 2)
+  keysOfObject(obj) {
+    return Object.keys(obj).filter((k) => k !== 'title' && k !== 'url');
   }
 
   onExpandChange(id: number, checked: boolean): void {
@@ -93,5 +137,9 @@ export class IndexComponent implements OnInit {
     } else {
       this.expandSet.delete(id);
     }
+  }
+
+  onFiltersChange(e) {
+    localStorage.setItem('filters', JSON.stringify(e));
   }
 }

@@ -1,3 +1,8 @@
+.header {
+  margin-bottom: 10px;
+  text-align: right;
+}
+
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -25,12 +30,10 @@
         max-height: 32px;
       }
       nz-input-group {
-        border: 1px solid #d9d9d9;
 
         .group-input-left {
           width: 90px;
           text-align: center;
-          border: none;
         }
 
         .group-input-center {
@@ -38,13 +41,12 @@
           text-align: center;
           border: none;
           pointer-events: none;
-          background-color: rgb(255, 255, 255);
+          background-color: transparent;
         }
 
         .group-input-right {
           width: 90px;
           text-align: center;
-          border: none;
         }
       }
     }
@@ -71,5 +73,15 @@
 
   [nz-button] {
     width: 120px;
+  }
+}
+
+.table-expand {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  
+  nz-descriptions {
+    margin: 10px 0 20px 0;
   }
 }
