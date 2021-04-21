@@ -17,5 +17,5 @@ jobs:
           path: room-map-server
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: ${{ github.repository }}/room-map-server
+          registry: ghcr.io
+          repository: liubaicai/room-map/server

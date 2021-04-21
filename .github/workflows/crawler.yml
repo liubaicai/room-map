@@ -17,5 +17,5 @@ jobs:
           path: room-map-crawler
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: ${{ github.repository }}/room-map-crawler
+          registry: ghcr.io
+          repository: liubaicai/room-map/crawler
