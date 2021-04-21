@@ -15,15 +15,12 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
-const ngZorroConfig: NzConfig = {
-};
+const ngZorroConfig: NzConfig = {};
 
-const icons: IconDefinition[] = [ HomeOutline ];
+const icons: IconDefinition[] = [HomeOutline];
 
 @NgModule({
-  imports: [
-    NzIconModule.forRoot(icons)
-  ],
+  imports: [NzIconModule.forRoot(icons)],
   exports: [
     NzTableModule,
     NzButtonModule,
@@ -39,4 +36,5 @@ const icons: IconDefinition[] = [ HomeOutline ];
     { provide: NZ_CONFIG, useValue: ngZorroConfig },
   ],
 })
+
 export class AntvModule {}
