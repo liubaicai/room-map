@@ -14,7 +14,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v1
         with:
-          context: ./room-map-web
+          context: room-map-web
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
