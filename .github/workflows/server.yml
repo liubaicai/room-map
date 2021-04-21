@@ -16,6 +16,6 @@ jobs:
         with:
           path: room-map-server
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.CR_PAT }}
           registry: ghcr.io
           repository: liubaicai/room-map-server
