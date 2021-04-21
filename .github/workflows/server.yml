@@ -12,9 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v1
         with:
-          context: room-map-server
+          path: room-map-server
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
+          repository: ${{ github.repository }}/room-map-server
+          tag_with_sha: true
+          tag_with_ref: true
