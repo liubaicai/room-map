@@ -2,7 +2,8 @@ source 'https://gems.ruby-china.com'
 
 gem 'rubocop', require: false
 
-gem 'kimurai' #, :git => 'https://github.com/vifreefly/kimuraframework' , :branch => 'master' 
-gem 'mechanize'
+gem 'kimurai', '~> 1.4' #, :git => 'https://github.com/vifreefly/kimuraframework' , :branch => 'master' 
+gem 'mechanize', '~> 2.7'
+gem 'capybara-mechanize', '~> 1.11'
 
 gem 'dotenv'
