@@ -1,0 +1,40 @@
+name: build packages
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build and push Crawler
+        uses: docker/build-push-action@v1
+        with:
+          path: room-map-crawler
+          registry: ghcr.io
+          username: "liubaicai"
+          password: ${{ secrets.GHCR }}
+          repository: liubaicai/room-map-crawler
+          tags: latest
+      - name: Build and push Server
+        uses: docker/build-push-action@v1
+        with:
+          path: room-map-server
+          registry: ghcr.io
+          username: "liubaicai"
+          password: ${{ secrets.GHCR }}
+          repository: liubaicai/room-map-server
+          tags: latest
+      - name: Build and push Web
+        uses: docker/build-push-action@v1
+        with:
+          path: room-map-web
+          registry: ghcr.io
+          username: "liubaicai"
+          password: ${{ secrets.GHCR }}
+          repository: liubaicai/room-map-web
+          tags: latest
