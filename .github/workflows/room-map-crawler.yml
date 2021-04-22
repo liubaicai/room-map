@@ -1,4 +1,4 @@
-name: build packages
+name: build room-map-crawler
 
 on:
   push:
@@ -27,6 +27,4 @@ jobs:
           context: room-map-crawler
           platforms: linux/amd64,linux/arm64
           push: true
-          registry: ghcr.io
-          repository: liubaicai/room-map-crawler
           tags: ghcr.io/liubaicai/room-map-crawler:latest
