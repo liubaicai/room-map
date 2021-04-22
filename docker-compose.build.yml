@@ -12,7 +12,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   server:
-    image: ghcr.io/liubaicai/room-map-server
+    build: ./room-map-server
     restart: always
     environment:
       - DB_HOST=db
@@ -27,7 +27,7 @@ services:
       - ./wait-for-pg.sh:/wait-for-pg.sh
     command: ["/wait-for-pg.sh", "db", "node", "dist/main.js"]
   web:
-    image: ghcr.io/liubaicai/room-map-web
+    build: ./room-map-web
     restart: always
     depends_on:
       - server
