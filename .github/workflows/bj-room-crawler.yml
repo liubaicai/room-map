@@ -1,4 +1,4 @@
-name: build room-map-crawler
+name: build bj-room-crawler
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
       - name: Build and push Crawler
         uses: docker/build-push-action@v2
         with:
-          context: room-map-crawler
+          context: crawler
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/liubaicai/room-map-crawler:latest
+          tags: ghcr.io/liubaicai/bj-room-crawler:latest

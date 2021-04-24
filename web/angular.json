@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "room-map-web": {
+    "bj-room-web": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -66,19 +66,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "room-map-web:build",
+            "browserTarget": "bj-room-web:build",
             "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "room-map-web:build:production"
+              "browserTarget": "bj-room-web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "room-map-web:build"
+            "browserTarget": "bj-room-web:build"
           }
         },
         "lint": {
@@ -97,5 +97,5 @@
       }
     }
   },
-  "defaultProject": "room-map-web"
+  "defaultProject": "bj-room-web"
 }

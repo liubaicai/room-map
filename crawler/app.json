@@ -1,13 +1,13 @@
 {
   "apps": [
     {
-      "name": "room-map-crawler",
+      "name": "bj-room-crawler",
       "interpreter": "ruby",
       "script": "./bin/run",
       "autorestart": true,
       "restart_delay": 3000,
-      "output": "./tmp/room-map.out.log",
-      "error": "./tmp/room-map.err.log",
+      "output": "./tmp/bj-room.out.log",
+      "error": "./tmp/bj-room.err.log",
       "env": {}
     }
   ]
