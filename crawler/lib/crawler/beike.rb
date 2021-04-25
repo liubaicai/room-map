@@ -42,7 +42,7 @@ module Crawler
     ]
     @config = {
       user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-      before_request: { delay: 1..1 },
+      before_request: { delay: 1..5 },
       retry_request_errors: [
         { error: Net::HTTP::Persistent::Error },
         { error: Net::OpenTimeout },
