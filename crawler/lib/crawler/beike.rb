@@ -88,7 +88,7 @@ module Crawler
         item[:title] = response.xpath("//p[@class='content__title']").text.squish
         item[:origin] = data[:origin]
         item[:url] = url
-        item[:code] = "BK-#{response.xpath("//i[@class='house_code' and contains(., '房源编号：')]")[0].text.squish.split('：')[1]}"
+        item[:code] = "BK-#{response.xpath("//script[contains(., 'g_conf.houseCode')]").text.match(/houseCode = '.*'/)[0].split("'")[1]}"
         item[:publish_time] = response.xpath("//div[@class='content__subtitle']/text()").text.squish.split('：')[1]
 
         item[:tags] = response.xpath("//p[@class='content__aside--tags']//i").map { |i| i.text.squish }
